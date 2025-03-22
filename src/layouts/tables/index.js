@@ -112,7 +112,7 @@ function Tables() {
                 coloredShadow="info"
               >
                 <MDTypography variant="h6" color="white">
-                  Authors Table
+                  Artificial Intelligence / Machine Learning Courses
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
@@ -139,7 +139,7 @@ function Tables() {
                 coloredShadow="info"
               >
                 <MDTypography variant="h6" color="white">
-                  Projects Table
+                   Full Stack Development Courses
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
