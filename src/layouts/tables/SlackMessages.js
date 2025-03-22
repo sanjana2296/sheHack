@@ -10,7 +10,7 @@ const SlackMessages = () => {
   useEffect(() => {
     const fetchSummary = async () => {
       try {
-        const response = await axios.get(`http://localhost:5001/api/messages?channelId=${channelId}`);
+        const response = await axios.get(`http://localhost:5000/api/messages?channelId=${channelId}`);
         setSummary(response.data.summary);
       } catch (error) {
         console.error('Error fetching summary:', error);
