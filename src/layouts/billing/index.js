@@ -1,3 +1,6 @@
+
+
+
 /**
 =========================================================
 * Material Dashboard 2 React - v2.2.0
@@ -15,75 +18,119 @@ Coded by www.creative-tim.com
 
 // @mui material components
 import Grid from "@mui/material/Grid";
+import Card from "@mui/material/Card";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
+import MDTypography from "components/MDTypography";
 
-// Material Dashboard 2 React examples
+// Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-import MasterCard from "examples/Cards/MasterCard";
-import DefaultInfoCard from "examples/Cards/InfoCards/DefaultInfoCard";
+import DataTable from "examples/Tables/DataTable";
 
-// Billing page components
-import PaymentMethod from "layouts/billing/components/PaymentMethod";
-import Invoices from "layouts/billing/components/Invoices";
-import BillingInformation from "layouts/billing/components/BillingInformation";
-import Transactions from "layouts/billing/components/Transactions";
+// Data
+import authorsTableData from "layouts/tables/data/authorsTableData";
+import projectsTableData from "layouts/tables/data/projectsTableData";
 
-function Billing() {
+// Gantt Chart Component
+import React from "react";
+import { GanttOriginal, ViewMode } from "react-gantt-chart";
+
+function Tables() {
+  const { columns, rows } = authorsTableData();
+  const { columns: pColumns, rows: pRows } = projectsTableData();
+
+  // Define the state for tasks in Gantt Chart
+  const [tasks] = React.useState([
+    {
+      type: "project",
+      id: "ProjectSample",
+      name: "1.Project",
+      start: new Date(2021, 6, 1),
+      end: new Date(2021, 9, 30),
+      progress: 25,
+      hideChildren: false,
+    },
+    {
+      type: "task",
+      id: "Task 0",
+      name: "1.1 Task",
+      start: new Date(2021, 6, 1),
+      end: new Date(2021, 6, 30),
+      progress: 45,
+      project: "ProjectSample",
+    },
+    {
+      type: "task",
+      id: "Task 1",
+      name: "1.2 Task",
+      start: new Date(2021, 7, 1),
+      end: new Date(2021, 7, 30),
+      progress: 25,
+      dependencies: ["Task 0"],
+      project: "ProjectSample",
+    },
+    {
+      type: "task",
+      id: "Task 2",
+      name: "1.3 Task",
+      start: new Date(2021, 6, 1),
+      end: new Date(2021, 7, 30),
+      progress: 10,
+      dependencies: ["Task 1"],
+      project: "ProjectSample",
+    },
+    {
+      type: "milestone",
+      id: "Task 6",
+      name: "1.3.1 MileStone (KT)",
+      start: new Date(2021, 6, 1),
+      end: new Date(2021, 6, 30),
+      progress: 100,
+      dependencies: ["Task 2"],
+      project: "ProjectSample",
+    },
+  ]);
+
   return (
     <DashboardLayout>
-      <DashboardNavbar absolute isMini />
-      <MDBox mt={8}>
-        <MDBox mb={3}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} lg={8}>
-              <Grid container spacing={3}>
-                <Grid item xs={12} xl={6}>
-                  <MasterCard number={4562112245947852} holder="jack peterson" expires="11/22" />
-                </Grid>
-                <Grid item xs={12} md={6} xl={3}>
-                  <DefaultInfoCard
-                    icon="account_balance"
-                    title="salary"
-                    description="Belong Interactive"
-                    value="+$2000"
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} xl={3}>
-                  <DefaultInfoCard
-                    icon="paypal"
-                    title="paypal"
-                    description="Freelance Payment"
-                    value="$455.00"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <PaymentMethod />
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} lg={4}>
-              <Invoices />
-            </Grid>
+      <DashboardNavbar />
+      <MDBox pt={6} pb={3}>
+        <Grid container spacing={6}>
+          {/* Gantt Chart */}
+          <Grid item xs={12}>
+            <Card>
+              <MDBox
+                mx={2}
+                mt={-3}
+                py={3}
+                px={2}
+                variant="gradient"
+                bgColor="info"
+                borderRadius="lg"
+                coloredShadow="info"
+              >
+                <MDTypography variant="h6" color="white">
+                  Project Gantt Chart
+                </MDTypography>
+              </MDBox>
+              <MDBox pt={3}>
+                <GanttOriginal
+                  tasks={tasks}
+                  viewMode={ViewMode.Month}
+                  columnWidth={200}
+                  ganttHeight={300}
+                />
+              </MDBox>
+            </Card>
           </Grid>
-        </MDBox>
-        <MDBox mb={3}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={7}>
-              <BillingInformation />
-            </Grid>
-            <Grid item xs={12} md={5}>
-              <Transactions />
-            </Grid>
-          </Grid>
-        </MDBox>
+        </Grid>
       </MDBox>
       <Footer />
     </DashboardLayout>
   );
 }
 
-export default Billing;
+export default Tables;

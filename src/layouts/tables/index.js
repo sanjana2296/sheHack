@@ -153,7 +153,7 @@ function Tables() {
               </MDBox>
             </Card>
           </Grid>
-          {/* Gantt Chart */}
+          {/* Gantt Chart
           <Grid item xs={12}>
             <Card>
               <MDBox
@@ -179,7 +179,7 @@ function Tables() {
                 />
               </MDBox>
             </Card>
-          </Grid>
+          </Grid> */}
         </Grid>
       </MDBox>
       <Footer />
