@@ -1,176 +1,123 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-import { useEffect } from "react";
-
-// @mui material components
-import Grid from "@mui/material/Grid";
-
-// Material Dashboard 2 React components
-import MDBox from "components/MDBox";
-
-// Material Dashboard 2 React example components
+import React, { useState } from 'react';
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import Footer from "examples/Footer";
-import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
-import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
-import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
-
-// Data
-import reportsBarChartData from "layouts/rtl/data/reportsBarChartData";
-import reportsLineChartData from "layouts/rtl/data/reportsLineChartData";
-
-// RTL components
-import Projects from "layouts/rtl/components/Projects";
-import OrdersOverview from "layouts/rtl/components/OrdersOverview";
-
-// Material Dashboard 2 React contexts
-import { useMaterialUIController, setDirection } from "context";
-
-function RTL() {
-  const [, dispatch] = useMaterialUIController();
-  const { sales, tasks } = reportsLineChartData;
-
-  // Changing the direction to rtl
-  useEffect(() => {
-    setDirection(dispatch, "rtl");
-
-    return () => setDirection(dispatch, "ltr");
-  }, []);
-
+import MDBox from "components/MDBox";
+import Grid from "@mui/material/Grid";
+ 
+const RTL = () => {
+  const [link, setLink] = useState('');
+  const [length, setLength] = useState('medium');
+  const [language, setLanguage] = useState('en');
+  const [summary, setSummary] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+ 
+  const summarize = async () => {
+    setLoading(true);
+    setError('');
+    setSummary('');
+ 
+    try {
+      const response = await fetch('http://localhost:5000/summarize', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          url: link,
+          summaryType: length,    
+          language: language
+        })
+      });
+ 
+      const data = await response.json();
+ 
+      if (response.ok) {
+        setSummary(data.data.summary);
+      } else {
+        setError(data.error || 'Something went wrong.');
+      }
+    } catch (err) {
+      setError('Network error: ' + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+ 
   return (
     <DashboardLayout>
-      <DashboardNavbar />
-      <MDBox py={3}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="dark"
-                icon="weekend"
-                title="أموال اليوم"
-                count={281}
-                percentage={{
-                  color: "success",
-                  amount: "+55%",
-                  label: "من الأسبوع الماضي",
-                }}
-              />
-            </MDBox>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                icon="leaderboard"
-                title="مستخدمو اليوم"
-                count="2,300"
-                percentage={{
-                  color: "success",
-                  amount: "+3%",
-                  label: "من الأسبوع الماضي",
-                }}
-              />
-            </MDBox>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="success"
-                icon="store"
-                title="عملاء جدد"
-                count="34k"
-                percentage={{
-                  color: "success",
-                  amount: "+1%",
-                  label: "من الشهر الماضي",
-                }}
-              />
-            </MDBox>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="primary"
-                icon="person_add"
-                title="مبيعات"
-                count="+91"
-                percentage={{
-                  color: "success",
-                  amount: "",
-                  label: "مقارنة بيوم أمس",
-                }}
-              />
-            </MDBox>
-          </Grid>
-        </Grid>
-        <MDBox mt={4.5}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <ReportsBarChart
-                  color="info"
-                  title="مشاهدات الموقع"
-                  description="آخر أداء للحملة"
-                  date="الحملة أرسلت قبل يومين"
-                  chart={reportsBarChartData}
-                />
-              </MDBox>
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <ReportsLineChart
-                  color="success"
-                  title="المبيعات اليومية"
-                  description={
-                    <>
-                      (<strong>+15%</strong>) زيادة في مبيعات اليوم..
-                    </>
-                  }
-                  date="تم التحديث منذ 4 دقائق"
-                  chart={sales}
-                />
-              </MDBox>
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <ReportsLineChart
-                  color="dark"
-                  title="المهام المكتملة"
-                  description="آخر أداء للحملة"
-                  date="تم تحديثه للتو"
-                  chart={tasks}
-                />
-              </MDBox>
-            </Grid>
-          </Grid>
-        </MDBox>
-        <MDBox>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={8}>
-              <Projects />
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <OrdersOverview />
-            </Grid>
-          </Grid>
-        </MDBox>
-      </MDBox>
-      <Footer />
+<MDBox
+  display="flex"
+  alignItems="center"
+  justifyContent="center"
+  minHeight="100vh"
+>
+  <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-xl">
+        <h1 className="text-2xl font-semibold mb-4 text-center">Summarizer</h1>
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">Article URL</label>
+          <input
+            type="text"
+            value={link}
+            onChange={(e) => setLink(e.target.value)}
+            className="w-full px-3 py-2 border rounded-md"
+            placeholder="https://example.com/article"
+          />
+        </div>
+       
+ 
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">Summary Length</label>
+          <select
+            value={length}
+            onChange={(e) => setLength(e.target.value)}
+            className="w-full px-3 py-2 border rounded-md"
+          >
+            <option value="short">Short</option>
+            <option value="medium">Medium</option>
+            <option value="long">Long</option>
+          </select>
+        </div>
+ 
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">Output Language (ISO Code)</label>
+          <input
+            type="text"
+            value={language}
+            onChange={(e) => setLanguage(e.target.value)}
+            className="w-full px-3 py-2 border rounded-md"
+            placeholder="en, fr, es, etc."
+          />
+        </div>
+ 
+        <button
+          onClick={summarize}
+          disabled={loading || !link}
+          className={`w-full py-2 px-4 rounded-md text-white font-medium ${
+            loading || !link ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+          }`}
+        >
+          {loading ? 'Summarizing...' : 'Get Summary'}
+        </button>
+ 
+        {error && <p className="text-red-600 mt-3">{error}</p>}
+        <div className="my-4"></div>
+        <h2> Summary</h2>
+        {summary && (
+          <div className="mt-4">
+            {/* <label className="block text-sm font-medium mb-1" htmlFor="summaryBox">Summary</label> */}
+            <textarea
+              readOnly
+              value={summary}
+              rows={15}
+              cols={70}
+              className="w-full px-3 py-2 border rounded-md"
+            />
+          </div>
+        )}
+      </div>
+    </MDBox>
     </DashboardLayout>
   );
-}
-
+};
+ 
 export default RTL;

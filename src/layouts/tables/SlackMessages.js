@@ -8,7 +8,7 @@ const SlackMessages = () => {
     const fetchMessages = async () => {
       try {
         // Make the request to your own server
-        const response = await axios.get("http://localhost:5001/slack/messages");
+        const response = await axios.get("http://localhost:5000/slack/messages");
 
         if (response.data) {
           setMessages(response.data);
