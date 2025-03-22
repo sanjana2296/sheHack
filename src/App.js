@@ -1,57 +1,23 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-import { useState, useEffect, useMemo } from "react";
-
-// react-router components
+import React, { useState, useEffect, useMemo } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-
-// @mui material components
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import Icon from "@mui/material/Icon";
-
-// Material Dashboard 2 React components
-import MDBox from "components/MDBox";
-
-// Material Dashboard 2 React example components
-import Sidenav from "examples/Sidenav";
-import Configurator from "examples/Configurator";
-
-// Material Dashboard 2 React themes
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import MDBox from "components/MDBox"; // Replace with your actual MDBox import
 import theme from "assets/theme";
 import themeRTL from "assets/theme/theme-rtl";
-
-// Material Dashboard 2 React Dark Mode themes
 import themeDark from "assets/theme-dark";
 import themeDarkRTL from "assets/theme-dark/theme-rtl";
-
-// RTL plugins
-import rtlPlugin from "stylis-plugin-rtl";
-import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
-
-// Material Dashboard 2 React routes
-import routes from "routes";
-
-// Material Dashboard 2 React contexts
-import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
-
-// Images
-import brandWhite from "assets/images/logo-ct.png";
-import brandDark from "assets/images/logo-ct-dark.png";
+import { CacheProvider } from "@emotion/react";
+import rtlPlugin from "stylis-plugin-rtl";
+import Sidenav from "examples/Sidenav"; // Replace with your actual Sidenav import
+import Configurator from "examples/Configurator"; // Replace with your actual Configurator import
+import routes from "routes"; // Replace with your actual routes import
+import brandWhite from "assets/images/logo-ct.png"; // Replace with your actual brandWhite import
+import brandDark from "assets/images/logo-ct-dark.png"; // Replace with your actual brandDark import
+import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context"; // Replace with your actual context imports
 
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
@@ -69,17 +35,23 @@ export default function App() {
   const [rtlCache, setRtlCache] = useState(null);
   const { pathname } = useLocation();
 
-  // Cache for the rtl
+  const [showChatBubble, setShowChatBubble] = useState(true); // Show the chat bubble by default
+
+  // Cache for RTL support
   useMemo(() => {
     const cacheRtl = createCache({
       key: "rtl",
       stylisPlugins: [rtlPlugin],
     });
-
     setRtlCache(cacheRtl);
   }, []);
 
-  // Open sidenav when mouse enter on mini sidenav
+  // Handle opening the configurator when the dog icon is clicked
+  const handleConfiguratorOpen = () => {
+    setOpenConfigurator(dispatch, !openConfigurator);
+  };
+
+  // Handle mouse enter/leave for mini sidenav
   const handleOnMouseEnter = () => {
     if (miniSidenav && !onMouseEnter) {
       setMiniSidenav(dispatch, false);
@@ -87,7 +59,6 @@ export default function App() {
     }
   };
 
-  // Close sidenav when mouse leave mini sidenav
   const handleOnMouseLeave = () => {
     if (onMouseEnter) {
       setMiniSidenav(dispatch, true);
@@ -95,15 +66,12 @@ export default function App() {
     }
   };
 
-  // Change the openConfigurator state
-  const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
-
-  // Setting the dir attribute for the body element
+  // Set the direction for RTL
   useEffect(() => {
     document.body.setAttribute("dir", direction);
   }, [direction]);
 
-  // Setting page scroll to 0 when changing the route
+  // Set scroll position to top on route change
   useEffect(() => {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
@@ -122,29 +90,73 @@ export default function App() {
       return null;
     });
 
+  // Dog icon and chat bubble component
   const configsButton = (
     <MDBox
       display="flex"
       justifyContent="center"
       alignItems="center"
-      width="3.25rem"
-      height="3.25rem"
-      bgColor="white"
-      shadow="sm"
-      borderRadius="50%"
       position="fixed"
-      right="2rem"
+      right="2rem" // Position dog icon
       bottom="2rem"
       zIndex={99}
       color="dark"
       sx={{ cursor: "pointer" }}
-      onClick={handleConfiguratorOpen}
+      onClick={handleConfiguratorOpen}  // Trigger the same function for the dog icon
     >
-      <Icon fontSize="small" color="inherit">
-        settings
-      </Icon>
+      <img
+        src="/dog_icon.png"  // Your custom dog image path
+        alt="Custom Image"
+        style={{
+          width: "80px",  // Adjust the image size as needed
+          height: "80px",
+          objectFit: "cover",
+        }}
+      />
     </MDBox>
   );
+
+ // Chat bubble component
+const chatBubble = showChatBubble && (
+  <MDBox
+    display="flex"
+    flexDirection="column"
+    alignItems="center"
+    position="fixed"
+    right="7rem" // Adjusted to the right to appear next to the dog
+    bottom="4rem" // Vertically aligned with the dog
+    zIndex={100}
+    sx={{
+      backgroundColor: "#fff",
+      padding: "10px",
+      borderRadius: "20px",
+      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+      maxWidth: "200px",
+      textAlign: "center",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      cursor: 'pointer',  // This will change the cursor to pointer when hovering over the chat bubble
+    }}
+    onClick={handleConfiguratorOpen}  // Trigger the same function for the chat bubble
+  >
+    <p style={{ marginBottom: "10px", fontSize: "14px", marginRight: "20px" }}>
+      How are you feeling today?
+    </p>
+    <IconButton
+      sx={{
+        position: "absolute",
+        top: "5px",
+        right: "5px",
+        padding: "0",
+      }}
+      onClick={() => setShowChatBubble(false)} // Close chat bubble
+    >
+      <CloseIcon />
+    </IconButton>
+  </MDBox>
+);
+
 
   return direction === "rtl" ? (
     <CacheProvider value={rtlCache}>
@@ -162,6 +174,7 @@ export default function App() {
             />
             <Configurator />
             {configsButton}
+            {chatBubble} {/* Chat Bubble Component */}
           </>
         )}
         {layout === "vr" && <Configurator />}
@@ -186,6 +199,7 @@ export default function App() {
           />
           <Configurator />
           {configsButton}
+          {chatBubble} {/* Chat Bubble Component */}
         </>
       )}
       {layout === "vr" && <Configurator />}
