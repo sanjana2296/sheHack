@@ -28,71 +28,73 @@ import MDTypography from "components/MDTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-import DataTable from "examples/Tables/DataTable";
-
-// Data
-import authorsTableData from "layouts/tables/data/authorsTableData";
-import projectsTableData from "layouts/tables/data/projectsTableData";
 
 // Gantt Chart Component
 import React from "react";
 import { GanttOriginal, ViewMode } from "react-gantt-chart";
 
-function Tables() {
-  const { columns, rows } = authorsTableData();
-  const { columns: pColumns, rows: pRows } = projectsTableData();
+// Additional imports
+import ViewSwitcher from "./components/ViewSwitcher"; // Assuming it's in a components folder
 
-  // Define the state for tasks in Gantt Chart
-  const [tasks] = React.useState([
-    {
-      type: "project",
-      id: "ProjectSample",
-      name: "1.Project",
-      start: new Date(2021, 6, 1),
-      end: new Date(2021, 9, 30),
-      progress: 25,
-      hideChildren: false,
-    },
-    {
-      type: "task",
-      id: "Task 0",
-      name: "1.1 Task",
-      start: new Date(2021, 6, 1),
-      end: new Date(2021, 6, 30),
-      progress: 45,
-      project: "ProjectSample",
-    },
-    {
-      type: "task",
-      id: "Task 1",
-      name: "1.2 Task",
-      start: new Date(2021, 7, 1),
-      end: new Date(2021, 7, 30),
-      progress: 25,
-      dependencies: ["Task 0"],
-      project: "ProjectSample",
-    },
-    {
-      type: "task",
-      id: "Task 2",
-      name: "1.3 Task",
-      start: new Date(2021, 6, 1),
-      end: new Date(2021, 7, 30),
-      progress: 10,
-      dependencies: ["Task 1"],
-      project: "ProjectSample",
-    },
-    {
-      type: "milestone",
-      id: "Task 6",
-      name: "1.3.1 MileStone (KT)",
-      start: new Date(2021, 6, 1),
-      end: new Date(2021, 6, 30),
-      progress: 100,
-      dependencies: ["Task 2"],
-      project: "ProjectSample",
-    },
-  ]);
+// Helper function (if needed)
+import { getStartEndDateForProject, initTasks } from "./helpers"; // Make sure these are available or define them
+
+function Tables() {
+  // Gantt chart state
+  const [tasks, setTasks] = React.useState(initTasks()); // Using initTasks() from helpers
+  const [view, setView] = React.useState(ViewMode.Month);
+  const [isChecked, setIsChecked] = React.useState(true);
+
+  // Logic for column width based on view mode
+  let columnWidth = 60;
+  if (view === ViewMode.Month) {
+    columnWidth = 300;
+  } else if (view === ViewMode.Week) {
+    columnWidth = 250;
+  }
+
+  // Handlers for task updates
+  const handleTaskChange = (task) => {
+    console.log("On date change Id:" + task.id);
+    let newTasks = tasks.map((t) => (t.id === task.id ? task : t));
+
+    if (task.project) {
+      const [start, end] = getStartEndDateForProject(newTasks, task.project);
+      const project = newTasks.find((t) => t.id === task.project);
+
+      if (project.start.getTime() !== start.getTime() || project.end.getTime() !== end.getTime()) {
+        const changedProject = { ...project, start, end };
+        newTasks = newTasks.map((t) => (t.id === task.project ? changedProject : t));
+      }
+    }
+
+    setTasks(newTasks);
+  };
+
+  const handleTaskDelete = (task) => {
+    const conf = window.confirm("Are you sure about " + task.name + " ?");
+    if (conf) {
+      setTasks(tasks.filter((t) => t.id !== task.id));
+    }
+  };
+
+  const handleProgressChange = async (task) => {
+    console.log("On progress change Id:" + task.id);
+    setTasks(tasks.map((t) => (t.id === task.id ? task : t)));
+  };
+
+  const handleDblClick = (task) => {
+    console.log("On Double Click event Id:" + task.id);
+  };
+
+  const handleSelect = (task, isSelected) => {
+    console.log(task.name + " has " + (isSelected ? "selected" : "unselected"));
+  };
+
+  const handleExpanderClick = (task) => {
+    console.log("On expander click Id:" + task.id);
+    setTasks(tasks.map((t) => (t.id === task.id ? task : t)));
+  };
 
   return (
     <DashboardLayout>
@@ -113,14 +115,32 @@ function Tables() {
                 coloredShadow="info"
               >
                 <MDTypography variant="h6" color="white">
-                  Project Gantt Chart
+                  Project Timeline Chart
                 </MDTypography>
               </MDBox>
+
+              {/* View Mode Switcher */}
+              <MDBox pt={3}>
+                <ViewSwitcher
+                  onViewModeChange={(viewMode) => setView(viewMode)}
+                  onViewListChange={setIsChecked}
+                  isChecked={isChecked}
+                />
+              </MDBox>
+
+              {/* Gantt Chart - Original */}
               <MDBox pt={3}>
                 <GanttOriginal
                   tasks={tasks}
-                  viewMode={ViewMode.Month}
-                  columnWidth={200}
+                  viewMode={view}
+                  onDateChange={handleTaskChange}
+                  onDelete={handleTaskDelete}
+                  onProgressChange={handleProgressChange}
+                  onDoubleClick={handleDblClick}
+                  onSelect={handleSelect}
+                  onExpanderClick={handleExpanderClick}
+                  columnWidth={columnWidth}
+                  listCellWidth={isChecked ? "155px" : ""}
                   ganttHeight={300}
                 />
               </MDBox>
