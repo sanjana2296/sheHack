@@ -54,19 +54,75 @@ const SlackMessages = () => {
           <h1>Slack Messages Summary</h1>
 
           {/* Dropdown for selecting channels */}
-          <select onChange={handleChannelChange} value={channelId}>
-            <option value="">Select a channel</option>
-            {channels.map((channel) => (
-              <option key={channel.id} value={channel.id}>
-                {channel.name}
-              </option>
-            ))}
-          </select>
+          <div className="dropdown-container">
+            <label htmlFor="channel-select" className="dropdown-label">
+              Select a slack channel
+            </label>
+            <select 
+              id="channel-select" 
+              onChange={handleChannelChange} 
+              value={channelId} 
+              className="dropdown-select"
+            >
+              {/* <option value="">Select a channel</option> */}
+              {channels.map((channel) => (
+                <option key={channel.id} value={channel.id}>
+                  {channel.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
           {/* Display the summary */}
           <p>{summary}</p>
         </div>
       </MDBox>
+
+      <style jsx>{`
+        /* Container for the dropdown */
+        .dropdown-container {
+          margin-bottom: 20px;
+        }
+
+        /* Label for the dropdown */
+        .dropdown-label {
+          font-size: 16px;
+          font-weight: bold;
+          margin-bottom: 8px;
+          display: block;
+          color: #333;
+        }
+
+        /* Styling for the select dropdown */
+        .dropdown-select {
+          width: 250px;
+          padding: 10px 15px;
+          font-size: 14px;
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          background-color: #fff;
+          color: #333;
+          cursor: pointer;
+          transition: border-color 0.3s ease;
+        }
+
+        /* Hover effect for the select dropdown */
+        .dropdown-select:hover {
+          border-color: #007bff;
+        }
+
+        /* Focus effect for the select dropdown */
+        .dropdown-select:focus {
+          outline: none;
+          border-color: #0056b3;
+          box-shadow: 0 0 5px rgba(0, 91, 255, 0.3);
+        }
+
+        /* Option styling */
+        .dropdown-select option {
+          padding: 10px;
+        }
+      `}</style>
     </DashboardLayout>
   );
 };
