@@ -61,7 +61,7 @@ const routes = [
   {
     type: "collapse",
     name: "Skill Development",
-    key: "tables",
+    key: "Skill-development",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/Skill-development",
     component: <Tables />,
@@ -94,7 +94,7 @@ const routes = [
   {
     type: "collapse",
     name: "Tech News Feed",
-    key: "notifications",
+    key: "news-feed",
     icon: <Icon fontSize="small">notifications</Icon>,
     route: "/news-feed",
     component: <Notifications />,
