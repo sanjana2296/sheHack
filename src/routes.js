@@ -85,18 +85,18 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "RTL",
-    key: "rtl",
+    name: "Summary",
+    key: "summary",
     icon: <Icon fontSize="small">format_textdirection_r_to_l</Icon>,
-    route: "/rtl",
+    route: "/summary",
     component: <RTL />,
   },
   {
     type: "collapse",
-    name: "Notifications",
+    name: "Tech News Feed",
     key: "notifications",
     icon: <Icon fontSize="small">notifications</Icon>,
-    route: "/notifications",
+    route: "/news-feed",
     component: <Notifications />,
   },
   {
