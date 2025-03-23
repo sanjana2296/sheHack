@@ -30,7 +30,7 @@ function RTL() {
     setSummary("");
  
     try {
-      const response = await fetch("http://localhost:5000/summarize", {
+      const response = await fetch("http://localhost:5001/summarize", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

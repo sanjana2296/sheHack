@@ -6,16 +6,20 @@ import MDBox from "components/MDBox";
 const SlackMessages = () => {
   const [summary, setSummary] = useState('');
   const [channels, setChannels] = useState([]);
-  const [channelId, setChannelId] = useState(''); 
+  const [channelId, setChannelId] = useState('');
+  const [loading, setLoading] = useState(false); 
 
   // Fetch channel list
   useEffect(() => {
     const fetchChannels = async () => {
       try {
+        setLoading(true);  
         const response = await axios.get(`http://localhost:5001/api/channels`);
         setChannels(response.data.channels);
+        setLoading(false); 
       } catch (error) {
         console.error('Error fetching channels:', error);
+        setLoading(false); 
       }
     };
 
@@ -25,13 +29,16 @@ const SlackMessages = () => {
   // Fetch summary whenever channelId changes
   useEffect(() => {
     const fetchSummary = async () => {
-      if (!channelId) return; 
+      if (!channelId) return;
 
       try {
+        setLoading(true); 
         const response = await axios.get(`http://localhost:5001/api/messages?channelId=${channelId}`);
         setSummary(response.data.summary);
+        setLoading(false); 
       } catch (error) {
         console.error('Error fetching summary:', error);
+        setLoading(false); 
       }
     };
 
@@ -39,7 +46,7 @@ const SlackMessages = () => {
   }, [channelId]);
 
   const handleChannelChange = (e) => {
-    setChannelId(e.target.value); 
+    setChannelId(e.target.value);
   };
 
   return (
@@ -64,7 +71,6 @@ const SlackMessages = () => {
               value={channelId} 
               className="dropdown-select"
             >
-              {/* <option value="">Select a channel</option> */}
               {channels.map((channel) => (
                 <option key={channel.id} value={channel.id}>
                   {channel.name}
@@ -73,8 +79,11 @@ const SlackMessages = () => {
             </select>
           </div>
 
-          {/* Display the summary */}
-          <p>{summary}</p>
+          {loading ? (
+            <div className="loader">Loading...</div>
+          ) : (
+            <p>{summary}</p>
+          )}
         </div>
       </MDBox>
 
@@ -121,6 +130,13 @@ const SlackMessages = () => {
         /* Option styling */
         .dropdown-select option {
           padding: 10px;
+        }
+
+        /* Styling for the loader */
+        .loader {
+          font-size: 20px;
+          color: #b91bce;
+          font-weight: bold;
         }
       `}</style>
     </DashboardLayout>
