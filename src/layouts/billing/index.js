@@ -109,10 +109,11 @@ function Tables() {
                 mt={-3}
                 py={3}
                 px={2}
-                variant="gradient"
-                bgColor="info"
                 borderRadius="lg"
-                coloredShadow="info"
+                                  sx={{
+                                    background: "linear-gradient(135deg, #800080, #9c27b0)", // You can adjust this gradient
+                                    boxShadow: "0 4px 20px 0 rgba(156, 39, 176, 0.5)", // Custom purple shadow
+                                  }}
               >
                 <MDTypography variant="h6" color="white">
                   Project Timeline Chart

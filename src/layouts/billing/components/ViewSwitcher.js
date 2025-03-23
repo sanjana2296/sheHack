@@ -36,12 +36,15 @@ const styles = {
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
+
   },
   buttonContainer: {
     display: "flex",
    marginRight: "400px",
     justifyContent: "center",
-    gap: "10px", // space between the buttons
+    gap: "10px",
+
+     // space between the buttons
   },
   button: {
     padding: "8px 16px",
