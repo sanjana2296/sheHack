@@ -217,6 +217,8 @@ import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
 
 // Custom styles for the Configurator
 import ConfiguratorRoot from "examples/Configurator/ConfiguratorRoot";
@@ -288,7 +290,7 @@ function Configurator() {
         <MDBox>
           <MDTypography variant="h5">{results ? "Your Results" : "Pregnancy Quiz"}</MDTypography>
           <MDTypography variant="body2" color="text">
-            {results ? "Here are your personalized well-being insights." : "Answer these questions to receive suggestions."}
+            {results ? "Here are your personalized insights:" : "Answer these questions to receive suggestions."}
           </MDTypography>
         </MDBox>
         <Icon onClick={handleCloseConfigurator} sx={{ cursor: "pointer" }}>close</Icon>
@@ -314,42 +316,78 @@ function Configurator() {
             <MDTypography variant="body2" mt={2}>{results.recommendations}</MDTypography>
 
             {results.hydrationSuggestion && (
-              <>
-                <MDTypography variant="h6" mt={3}>💧 Hydration Tip</MDTypography>
-                <MDTypography variant="body2">{results.hydrationSuggestion}</MDTypography>
-              </>
+              <MDBox mt={3}>
+                <Card sx={{ backgroundColor: "#E3F2FD", borderRadius: "lg" }}>
+                  <CardContent>
+                    <MDTypography variant="h6" fontWeight="bold" color="primary">
+                      💧 Hydration Tip
+                    </MDTypography>
+                    <MDTypography variant="body2">{results.hydrationSuggestion}</MDTypography>
+                  </CardContent>
+                </Card>
+              </MDBox>
             )}
 
             {results.dietSuggestion && (
-              <>
-                <MDTypography variant="h6" mt={3}>🥗 Diet Tip</MDTypography>
-                <MDTypography variant="body2">{results.dietSuggestion}</MDTypography>
-              </>
+              <MDBox mt={3}>
+                <Card sx={{ backgroundColor: "#F3E5F5", borderRadius: "lg" }}>
+                  <CardContent>
+                    <MDTypography variant="h6" fontWeight="bold" color="secondary">
+                      🥗 Diet Tip
+                    </MDTypography>
+                    <MDTypography variant="body2">{results.dietSuggestion}</MDTypography>
+                  </CardContent>
+                </Card>
+              </MDBox>
             )}
 
             {results.physicalActivitySuggestion && (
-              <>
-                <MDTypography variant="h6" mt={3}>🏃‍♀️ Physical Activity Tip</MDTypography>
-                <MDTypography variant="body2">{results.physicalActivitySuggestion}</MDTypography>
-              </>
+              <MDBox mt={3}>
+                <Card sx={{ backgroundColor: "#FFF3E0", borderRadius: "lg" }}>
+                  <CardContent>
+                    <MDTypography variant="h6" fontWeight="bold" color="warning.main">
+                      🏃‍♀️ Physical Activity Tip
+                    </MDTypography>
+                    <MDTypography variant="body2">{results.physicalActivitySuggestion}</MDTypography>
+                  </CardContent>
+                </Card>
+              </MDBox>
             )}
 
             {results.highStressAdvice && (
-              <>
-                <MDTypography variant="h6" mt={3} color="error">⚠️ High Stress Advice</MDTypography>
-                <MDTypography variant="body2">{results.highStressAdvice}</MDTypography>
-              </>
+              <MDBox mt={3}>
+                <Card sx={{ backgroundColor: "#FFEBEE", borderRadius: "lg" }}>
+                  <CardContent>
+                    <MDTypography variant="h6" fontWeight="bold" color="error">
+                      ⚠️ High Stress Advice
+                    </MDTypography>
+                    <MDTypography variant="body2">{results.highStressAdvice}</MDTypography>
+                  </CardContent>
+                </Card>
+              </MDBox>
             )}
 
-            <MDTypography variant="h6" mt={3}>🌟 Daily Well-being Tip</MDTypography>
-            <MDTypography variant="body2">{results.randomTip}</MDTypography>
+
+            {results.randomTip && (
+              <MDBox mt={3}>
+                <Card sx={{ backgroundColor: "#EDE7F6", borderRadius: "lg" }}>
+                  <CardContent>
+                    <MDTypography variant="h6" fontWeight="bold" color="primary">
+                      🌟 Daily Well-being Tip
+                    </MDTypography>
+                    <MDTypography variant="body2">{results.randomTip}</MDTypography>
+                  </CardContent>
+                </Card>
+              </MDBox>
+            )}
 
             {/* ✅ Podcast & Yoga Suggestions */}
-            <MDTypography variant="h6" mt={3}>🎧 Recommended Podcasts</MDTypography>
-            <MDBox dangerouslySetInnerHTML={{ __html: results.podcastSuggestions }} />
+                        <MDTypography variant="h6" mt={3}>🎧 Recommended Podcasts</MDTypography>
+                        <MDBox dangerouslySetInnerHTML={{ __html: results.podcastSuggestions }} />
 
-            <MDTypography variant="h6" mt={3}>🧘 Prenatal Yoga Exercises</MDTypography>
-            <MDBox dangerouslySetInnerHTML={{ __html: results.yogaSuggestions }} />
+                        <MDTypography variant="h6" mt={3}>🧘 Prenatal Yoga Exercises</MDTypography>
+                        <MDBox dangerouslySetInnerHTML={{ __html: results.yogaSuggestions }} />
+
 
             {/* ✅ Back to Quiz Button */}
             <MDButton onClick={fetchQuiz} variant="contained" color="info" fullWidth sx={{ mt: 3 }}>
