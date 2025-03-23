@@ -149,7 +149,7 @@ function Tables() {
           </Grid>
         </Grid>
       </MDBox>
-      <Footer />
+
     </DashboardLayout>
   );
 }

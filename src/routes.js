@@ -63,7 +63,7 @@ const routes = [
     name: "Skill Development",
     key: "tables",
     icon: <Icon fontSize="small">table_view</Icon>,
-    route: "/tables",
+    route: "/Skill-development",
     component: <Tables />,
   },
   {

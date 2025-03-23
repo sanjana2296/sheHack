@@ -66,7 +66,7 @@ function Notifications() {
           </Grid>
         </Grid>
       </MDBox>
-      <Footer />
+
     </DashboardLayout>
   );
 }
