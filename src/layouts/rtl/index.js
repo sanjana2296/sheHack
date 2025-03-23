@@ -1,32 +1,45 @@
-import React, { useState } from 'react';
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import MDBox from "components/MDBox";
-import Grid from "@mui/material/Grid";
+import React, { useState } from "react";
  
-const RTL = () => {
-  const [link, setLink] = useState('');
-  const [length, setLength] = useState('medium');
-  const [language, setLanguage] = useState('en');
-  const [summary, setSummary] = useState('');
+// @mui material components
+import Grid from "@mui/material/Grid";
+import Card from "@mui/material/Card";
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
+import Button from "@mui/material/Button";
+ 
+// Material Dashboard 2 React components
+import MDBox from "components/MDBox";
+import MDTypography from "components/MDTypography";
+ 
+// Layout
+import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+import Footer from "examples/Footer";
+ 
+function RTL() {
+  const [link, setLink] = useState("Choose");
+  const [length, setLength] = useState("medium");
+  const [language, setLanguage] = useState("en");
+  const [summary, setSummary] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
  
   const summarize = async () => {
     setLoading(true);
-    setError('');
-    setSummary('');
+    setError("");
+    setSummary("");
  
     try {
-      const response = await fetch('http://localhost:5000/summarize', {
-        method: 'POST',
+      const response = await fetch("http://localhost:5000/summarize", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           url: link,
-          summaryType: length,    
-          language: language
-        })
+          summaryType: length,
+          language: language,
+        }),
       });
  
       const data = await response.json();
@@ -34,10 +47,10 @@ const RTL = () => {
       if (response.ok) {
         setSummary(data.data.summary);
       } else {
-        setError(data.error || 'Something went wrong.');
+        setError(data.error || "Something went wrong.");
       }
     } catch (err) {
-      setError('Network error: ' + err.message);
+      setError("Network error: " + err.message);
     } finally {
       setLoading(false);
     }
@@ -45,79 +58,101 @@ const RTL = () => {
  
   return (
     <DashboardLayout>
-<MDBox
-  display="flex"
-  alignItems="center"
-  justifyContent="center"
-  minHeight="100vh"
->
-  <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-xl">
-        <h1 className="text-2xl font-semibold mb-4 text-center">Summarizer</h1>
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">Article URL</label>
-          <input
-            type="text"
-            value={link}
-            onChange={(e) => setLink(e.target.value)}
-            className="w-full px-3 py-2 border rounded-md"
-            placeholder="https://example.com/article"
-          />
-        </div>
-       
+      <DashboardNavbar />
+      <MDBox pt={6} pb={40}>
+        <Grid container justifyContent="center">
+          <Grid item xs={15} md={30} lg={8}>
+            <Card sx={{ p: 10 }}>
+              <MDTypography variant="h5" gutterBottom>
+                Summarizer
+              </MDTypography>
  
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">Summary Length</label>
-          <select
-            value={length}
-            onChange={(e) => setLength(e.target.value)}
-            className="w-full px-3 py-2 border rounded-md"
-          >
-            <option value="short">Short</option>
-            <option value="medium">Medium</option>
-            <option value="long">Long</option>
-          </select>
-        </div>
+              <TextField
+                select
+                label="Select Channel"
+                value={link || ""}
+                onChange={(e) => setLink(e.target.value)}
+                fullWidth
+                margin="normal"
+                sx={{
+                  '& .MuiInputBase-root': {
+                    height: 56,
+                  },
+                }}
+              >
+                <MenuItem value="">-- Choose --</MenuItem>
+                <MenuItem value="https://www.apriqot.co/">SharePoint</MenuItem>
+                <MenuItem value="https://www.microsoft.com/en-us/microsoft-teams/group-chat-software">Teams</MenuItem>
+                <MenuItem value="https://www.wwt.com/">JIRA</MenuItem>
+                <MenuItem value="https://sprints.ai/en-us">Sprint 1</MenuItem>
+                <MenuItem value="https://www.scrum.org/resources/what-is-a-sprint-in-scrum">Sprint 2</MenuItem>
+              </TextField>
  
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">Output Language (ISO Code)</label>
-          <input
-            type="text"
-            value={language}
-            onChange={(e) => setLanguage(e.target.value)}
-            className="w-full px-3 py-2 border rounded-md"
-            placeholder="en, fr, es, etc."
-          />
-        </div>
+              <TextField
+                select
+                label="Summary Length"
+                value={length || ""}
+                onChange={(e) => setLength(e.target.value)}
+                fullWidth
+                margin="normal"
+                sx={{
+                  '& .MuiInputBase-root': {
+                    height: 56,
+                  },
+                }}
+              >
+                <MenuItem value="short">Short</MenuItem>
+                <MenuItem value="medium">Medium</MenuItem>
+                <MenuItem value="long">Long</MenuItem>
+              </TextField>
  
-        <button
-          onClick={summarize}
-          disabled={loading || !link}
-          className={`w-full py-2 px-4 rounded-md text-white font-medium ${
-            loading || !link ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
-          }`}
-        >
-          {loading ? 'Summarizing...' : 'Get Summary'}
-        </button>
+              <TextField
+                label="Output Language (ISO Code)"
+                value={language}
+                onChange={(e) => setLanguage(e.target.value)}
+                placeholder="en, fr, es, etc."
+                fullWidth
+                margin="normal"
+               
+              />
  
-        {error && <p className="text-red-600 mt-3">{error}</p>}
-        <div className="my-4"></div>
-        <h2> Summary</h2>
-        {summary && (
-          <div className="mt-4">
-            {/* <label className="block text-sm font-medium mb-1" htmlFor="summaryBox">Summary</label> */}
-            <textarea
-              readOnly
-              value={summary}
-              rows={15}
-              cols={70}
-              className="w-full px-3 py-2 border rounded-md"
-            />
-          </div>
-        )}
-      </div>
-    </MDBox>
+              <Button
+                variant="contained"
+                color="info"
+                onClick={summarize}
+                fullWidth
+                disabled={loading || !link}
+                sx={{ mt: 2 }}
+              >
+                {loading ? "Summarizing..." : "Get Summary"}
+              </Button>
+ 
+              {error && (
+                <MDTypography color="error" variant="body2" mt={2}>
+                  {error}
+                </MDTypography>
+              )}
+ 
+              {summary && (
+                <MDBox mt={4}>
+                  <MDTypography variant="h6">Summary</MDTypography>
+                  <TextField
+                    multiline
+                    fullWidth
+                    rows={10}
+                    value={summary}
+                    InputProps={{ readOnly: true }}
+                    variant="outlined"
+                    margin="normal"
+                  />
+                </MDBox>
+              )}
+            </Card>
+          </Grid>
+        </Grid>
+      </MDBox>
+      <Footer />
     </DashboardLayout>
   );
-};
- 
+}
 export default RTL;
