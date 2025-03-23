@@ -1,51 +1,25 @@
-
-
-
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// @mui material components
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 
-// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
-// Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 
-// Gantt Chart Component
 import React from "react";
 import { GanttOriginal, ViewMode } from "react-gantt-chart";
 
-// Additional imports
-import ViewSwitcher from "./components/ViewSwitcher"; // Assuming it's in a components folder
+import ViewSwitcher from "./components/ViewSwitcher"; 
 
-// Helper function (if needed)
-import { getStartEndDateForProject, initTasks } from "./helpers"; // Make sure these are available or define them
+import { getStartEndDateForProject, initTasks } from "./helpers"; 
 
 function Tables() {
-  // Gantt chart state
-  const [tasks, setTasks] = React.useState(initTasks()); // Using initTasks() from helpers
+  const [tasks, setTasks] = React.useState(initTasks()); 
   const [view, setView] = React.useState(ViewMode.Month);
   const [isChecked, setIsChecked] = React.useState(true);
 
-  // Logic for column width based on view mode
   let columnWidth = 60;
   if (view === ViewMode.Month) {
     columnWidth = 300;

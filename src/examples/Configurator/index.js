@@ -3,19 +3,15 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-// @mui material components
 import Divider from "@mui/material/Divider";
 import Icon from "@mui/material/Icon";
 
-// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 
-// Custom styles for the Configurator
 import ConfiguratorRoot from "examples/Configurator/ConfiguratorRoot";
 
-// Material Dashboard 2 React context
 import { useMaterialUIController, setOpenConfigurator } from "context";
 
 function Configurator() {
@@ -29,7 +25,6 @@ function Configurator() {
   const [results, setResults] = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
-  // ✅ Fetch quiz questions from API
   const fetchQuiz = async () => {
     setLoading(true);
     setResults(null);

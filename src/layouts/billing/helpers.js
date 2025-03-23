@@ -1,6 +1,5 @@
 export const initTasks = () => {
   const tasks = [
-    // Project 1
     {
       line: 0,
       type: "project",

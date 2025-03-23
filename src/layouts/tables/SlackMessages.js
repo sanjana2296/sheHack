@@ -10,7 +10,6 @@ const SlackMessages = () => {
   const [channelId, setChannelId] = useState('');
   const [loading, setLoading] = useState(false); 
 
-  // Fetch channel list
   useEffect(() => {
     const fetchChannels = async () => {
       try {
