@@ -78,9 +78,9 @@ const routes = [
   {
     type: "collapse",
     name: "Project Timeline",
-    key: "billing",
+    key: "project",
     icon: <Icon fontSize="small">receipt_long</Icon>,
-    route: "/billing",
+    route: "/project",
     component: <Billing />,
   },
   {
