@@ -49,7 +49,7 @@ const styles = {
   button: {
     padding: "8px 16px",
     border: "none",
-    backgroundColor: "#1976d2", // MUI primary color
+    backgroundColor: "#b91bce", // MUI primary color
     color: "white",
     cursor: "pointer",
     borderRadius: "4px",
