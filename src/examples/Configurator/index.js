@@ -296,7 +296,17 @@ function Configurator() {
       <Divider />
       
       {/* ✅ Show results if available, else display the quiz */}
-      <MDBox pt={0.5} pb={3} px={3}>
+      <MDBox
+        pt={0.5}
+        pb={3}
+        px={3}
+        sx={{
+          maxWidth: "100%",
+          overflowX: "hidden",
+          wordBreak: "break-word",
+          whiteSpace: "normal",
+        }}
+      >
         {results ? (
           // ✅ Display Results Section
           <>
