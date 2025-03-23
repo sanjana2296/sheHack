@@ -463,7 +463,7 @@ function Configurator() {
     <ConfiguratorRoot variant="permanent" ownerState={{ openConfigurator }}>
       <MDBox display="flex" justifyContent="space-between" alignItems="baseline" pt={4} pb={0.5} px={3}>
         <MDBox>
-          <MDTypography variant="h5">{results ? "Your Results" : "Pregnancy Quiz"}</MDTypography>
+          <MDTypography variant="h5">{results ? "Your Results" : "Health Check Quiz"}</MDTypography>
           <MDTypography variant="body2" color="text">
             {results ? "Here are your personalized well-being insights." : "Answer these questions to receive suggestions."}
           </MDTypography>
@@ -518,7 +518,7 @@ function Configurator() {
             <MDTypography variant="h6" mt={3}>🧘 Prenatal Yoga Exercises</MDTypography>
             <MDBox dangerouslySetInnerHTML={{ __html: results.yogaSuggestions }} />
 
-            <MDTypography variant="h6" mt={3}>📝 Your Responses & Sentiment Analysis</MDTypography>
+            <MDTypography variant="h6" mt={3}></MDTypography>
             <MDBox component="ul" pl={3}>
               {results.responses.map((r, idx) => (
                 <MDTypography key={idx} component="li" variant="body2">

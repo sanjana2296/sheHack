@@ -39,7 +39,7 @@ function Notifications() {
               <MDBox pt={2} px={2}>
                 {news.length > 0 ? (
                   news.map((article, index) => (
-                    <MDAlert key={index} color="info" dismissible>
+                    <MDAlert key={index} color="info" dismissible >
                       <MDTypography variant="body2" color="white">
                         <strong>{article.title}</strong> - {article.description}
                         {article.url && (
