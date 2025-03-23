@@ -1,23 +1,20 @@
 import React, { useState } from "react";
  
-// @mui material components
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
  
-// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
  
-// Layout
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
  
 function RTL() {
-  const [link, setLink] = useState("Choose");
+  const [link, setLink] = useState("https://www.apriqot.co/");
   const [length, setLength] = useState("medium");
   const [language, setLanguage] = useState("en");
   const [summary, setSummary] = useState("");
@@ -80,7 +77,7 @@ function RTL() {
                   },
                 }}
               >
-                <MenuItem value="">-- Choose --</MenuItem>
+                <MenuItem disabled value=""> Select a channel </MenuItem>
                 <MenuItem value="https://www.apriqot.co/">SharePoint</MenuItem>
                 <MenuItem value="https://www.microsoft.com/en-us/microsoft-teams/group-chat-software">Teams</MenuItem>
                 <MenuItem value="https://www.wwt.com/">JIRA</MenuItem>
