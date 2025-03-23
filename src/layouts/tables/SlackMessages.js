@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import MDBox from "components/MDBox";
+import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 const SlackMessages = () => {
   const [summary, setSummary] = useState('');
@@ -26,7 +27,7 @@ const SlackMessages = () => {
     fetchChannels();
   }, []);
 
-  // Fetch summary whenever channelId changes
+    // Fetch summary whenever channelId changes
   useEffect(() => {
     const fetchSummary = async () => {
       if (!channelId) return;
@@ -45,13 +46,14 @@ const SlackMessages = () => {
     fetchSummary();
   }, [channelId]);
 
-  const handleChannelChange = (e) => {
+    const handleChannelChange = (e) => {
     setChannelId(e.target.value);
   };
 
   return (
     <DashboardLayout>
-      <MDBox
+      <DashboardNavbar />
+              <MDBox
         display="flex"
         alignItems="center"
         justifyContent="center"
