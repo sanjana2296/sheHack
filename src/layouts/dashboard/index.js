@@ -1,161 +1,132 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// @mui material components
 import Grid from "@mui/material/Grid";
-
-// Material Dashboard 2 React components
+import { useState } from "react";
+import { Card, CardContent, TextField, Button, List, ListItem, ListItemText } from "@mui/material";
 import MDBox from "components/MDBox";
-
-// Material Dashboard 2 React example components
+import MDTypography from "components/MDTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
-import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
-import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
-
-// Data
-import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
-import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
-
-// Dashboard components
-import Projects from "layouts/dashboard/components/Projects";
-import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 
 function Dashboard() {
-  const { sales, tasks } = reportsLineChartData;
+  const [todo, setTodo] = useState("");
+  const [todos, setTodos] = useState([]);
+
+  const addTodo = () => {
+    if (todo.trim() !== "") {
+      setTodos([...todos, todo]);
+      setTodo("");
+    }
+  };
 
   return (
     <DashboardLayout>
-      <DashboardNavbar />
-      <MDBox py={3}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="dark"
-                icon="weekend"
-                title="Bookings"
-                count={281}
-                percentage={{
-                  color: "success",
-                  amount: "+55%",
-                  label: "than lask week",
-                }}
-              />
-            </MDBox>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                icon="leaderboard"
-                title="Today's Users"
-                count="2,300"
-                percentage={{
-                  color: "success",
-                  amount: "+3%",
-                  label: "than last month",
-                }}
-              />
-            </MDBox>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="success"
-                icon="store"
-                title="Revenue"
-                count="34k"
-                percentage={{
-                  color: "success",
-                  amount: "+1%",
-                  label: "than yesterday",
-                }}
-              />
-            </MDBox>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="primary"
-                icon="person_add"
-                title="Followers"
-                count="+91"
-                percentage={{
-                  color: "success",
-                  amount: "",
-                  label: "Just updated",
-                }}
-              />
-            </MDBox>
-          </Grid>
-        </Grid>
-        <MDBox mt={4.5}>
+      <MDBox
+        sx={{
+          backgroundImage: `url(${require("assets/images/Back.png")})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          minHeight: "100vh",
+          px: 2,
+        }}
+      >
+        <DashboardNavbar />
+
+        {/* ✅ Hero Section */}
+        <MDBox mt={4} mb={2} textAlign="center">
+          <MDTypography
+            variant="h1"
+            fontWeight="bold"
+            sx={{
+              fontFamily: "'Dancing Script', cursive",
+              color: "purple",
+              transition: "all 0.8s ease-in-out",
+              ":hover": { letterSpacing: "3px" },
+            }}
+          >
+            SheBalance
+          </MDTypography>
+
+          <MDTypography variant="h4" sx={{ fontFamily: "'Poppins', sans-serif", color: "purple" }}>
+            Empowering Women through Wellness, Knowledge, and Community.
+          </MDTypography>
+
+          <MDTypography
+            variant="subtitle2"
+            sx={{ fontFamily: "'Poppins', sans-serif", color: "white", mt: 1 }}
+          >
+            "Self-care is how you take your power back." – Lalah Delia
+          </MDTypography>
+        </MDBox>
+
+        <MDBox py={3}>
           <Grid container spacing={3}>
+            {/* 👋 User Greeting */}
             <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <ReportsBarChart
-                  color="info"
-                  title="website vies"
-                  description="Last Campaign Performance"
-                  date="campaign sent 2 days ago"
-                  chart={reportsBarChartData}
-                />
-              </MDBox>
+
             </Grid>
+
+            {/* ✅ Habit Tracker */}
             <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <ReportsLineChart
-                  color="success"
-                  title="daily sales"
-                  description={
-                    <>
-                      (<strong>+15%</strong>) increase in today sales.
-                    </>
-                  }
-                  date="updated 4 min ago"
-                  chart={sales}
-                />
-              </MDBox>
+            <Card>
+                                    <CardContent>
+                                      <MDTypography variant="h5" fontWeight="bold">
+                                        Welcome back, Simmi! 💜
+                                      </MDTypography>
+                                      <MDTypography variant="body2" color="text">
+                                        Ready to balance your goals today?
+                                      </MDTypography>
+                                    </CardContent>
+                                  </Card>
+
             </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <ReportsLineChart
-                  color="dark"
-                  title="completed tasks"
-                  description="Last Campaign Performance"
-                  date="just updated"
-                  chart={tasks}
-                />
-              </MDBox>
+
+            {/* 🌟 Personalized Recommendations */}
+            <Grid item xs={12} md={12} lg={4}>
+              <Card>
+                <CardContent>
+                  <MDTypography variant="h6" fontWeight="bold">
+                    Recommended For You
+                  </MDTypography>
+                  <ul style={{ marginTop: 8 }}>
+                    <li>
+                      <MDTypography variant="body2">🌿 10-Min Mindfulness Meditation</MDTypography>
+                    </li>
+                    <li>
+                      <MDTypography variant="body2">🍎 Healthy Meal Plan for the Week</MDTypography>
+                    </li>
+                    <li>
+                      <MDTypography variant="body2">📚 Learn: Emotional Intelligence</MDTypography>
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
             </Grid>
           </Grid>
         </MDBox>
-        <MDBox>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={8}>
-              <Projects />
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <OrdersOverview />
-            </Grid>
-          </Grid>
-        </MDBox>
+
+
+
+        <MDBox py={3}>
+                  <Grid container spacing={3}>
+                    {/* 👋 User Greeting */}
+                    <Grid item xs={12} md={6} lg={4}>
+
+                    </Grid>
+
+                    {/* ✅ Habit Tracker */}
+                    <Grid item xs={12} md={6} lg={4}>
+
+                    </Grid>
+
+                    {/* 🌟 Personalized Recommendations */}
+                    <Grid item xs={12} md={12} lg={4}>
+
+                    </Grid>
+                  </Grid>
+                </MDBox>
+
       </MDBox>
-      <Footer />
     </DashboardLayout>
   );
 }
