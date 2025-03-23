@@ -285,7 +285,7 @@ function Configurator() {
         <MDBox>
           <MDTypography variant="h5">{results ? "Your Results" : "Pregnancy Quiz"}</MDTypography>
           <MDTypography variant="body2" color="text">
-            {results ? "Here are your personalized insights:" : "Answer these questions to receive suggestions."}
+            {results ? "Here are your personalized insights:" : "Answer the questions to get suggestions."}
           </MDTypography>
         </MDBox>
         <Icon onClick={handleCloseConfigurator} sx={{ cursor: "pointer" }}>close</Icon>
